@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div>
+<form action= "">
+ <!--div class="form-group">
+  <label for="name-input">Your Name (Required)</label>
+  <input type="text" class="form-control" id="name-input" placeholder="Name">
+ </div-->
+
+<div class="form-group">
+<h3>Question 1</h3>
+<h4>You love pragmatism</h4>
+<select class="form-control" id="scores-input1">
+	<option value="1">1 (Strongly Disagree)</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option></script></script>
+	<option value="5">5 (Strongly Agree)</option>
+</select>
+</div>
+<div class="form-group"-->
+	<h3>Question 2</h3>
+	<h4>You like bright colors</h4>
+	<select class="form-control" name="scores" id="scores-input2">
+	<option value="1">1 (Strongly Disagree)</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5 (Strongly Agree)</option>
+</select>
+</div>
+<button type="submit" class="btn btn-default" id= "submit">Submit</button>
+</form>
+
+<script src="js/jquery-1.10.2.min.js"></script>
+</body>
+
+<script type="text/javascript">
+//var score = scores.join(' , ');
+
+$("#submit").on("click", function(e) {
+	var name = $("#name-input").val();
+	var scores = [$("#scores-input1").val(), $("#scores-input2").val()];
+  	var result = {
+  			name: name,
+  			scores: scores
+  		}
+e.preventDefault();
+console.log(result);
+});
+
+
+</script>
+</html>
