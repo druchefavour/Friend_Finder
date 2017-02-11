@@ -18,10 +18,7 @@ module.exports = function(app) {
 				profile.append("<p>" + data[i].photo +"<p>");
 				profile.append("<p>" + data[i].score +"<p>");
 				$("friends-rep").prepend(profile);
-			}
-		}
-	});
-
+			
 	// Make Basic Calculate comparison
 	var friendScore[i] = data[i].score;
 	if (data.length > 1) {
@@ -33,13 +30,18 @@ module.exports = function(app) {
 				var friendSum = [];
 				friendSum.push(friendSum[i])
 					if(friendSum[i] === Math.min.apply(null, friendSum)){
-
-						
-						$("#pop").on("click", function() {
-						$('#imagepreview').attr('src', $('#imageresource').attr('src')); // here asign the image to the modal when the user click the enlarge link
-						$('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
-					});
+					// Grab the result from the AJAX post so that the best match's name and photo are displayed.
+					$("#bestMatchName").text(data[i].name);
+					$('#bestMatchImage').attr("src", data[i].photo);
+					// Show the modal with the best match 
+					$("#bestMatchModal").modal('toggle');
+					} else {
+						console.log("start afresh");
 					}
 				}
 			}
-		};
+			}
+		}
+	};
+});
+}

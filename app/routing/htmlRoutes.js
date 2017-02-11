@@ -1,13 +1,24 @@
+// *********************************************************************************
+// html-routes.js - this file offers a set of routes for sending users to the various html pages
+// *********************************************************************************
 
-var express = require("express");
-var app = express();
-// Create a get to display survey.html
-//GET requests
-var htmlRoutes = function () {
+// Dependencies
+// =============================================================
+var path = require("path");
+
+// Routes
+
+module.exports = function(app) {
+	// Home route loads home.html
 	app.get('/',function(req,res) {
-    res.sendFile(path.join(__routing,'survey.html'))
+    res.sendFile(path.join(__dirname,'../public/home.html'));
+
+    // Supplementary route loads survey.html
+    app.get('/survey',function(req,res) {
+    res.sendFile(path.join(__dirname,'../public/survey.html'));
+
+    // Tertiary route loads friends.html
+    app.get('/api/friends',function(req,res) {
+    res.sendFile(path.join(__dirname,'../public/api/friends.html'));
 });
 }
-
-
-module.exports = htmlRoutes;
