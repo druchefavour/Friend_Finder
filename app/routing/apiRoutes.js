@@ -1,48 +1,45 @@
-// Create a js script to handle the submit button from survey.html
-$("#submit").on("click", function(e) {
-	var name = $("#name-input").val();
-	var photo = $("#photo-input").val();
-	var scores = [
-	parseInt($("#scores-input1").val()), 
-	parseInt($("#scores-input2").val()), 
-	parseInt($("#scores-input3").val()),
-	parseInt($("#scores-input4").val()),
-	parseInt($("#scores-input5").val()),
-	parseInt($("#scores-input6").val()),
-	parseInt($("#scores-input7").val()),
-	parseInt($("#scores-input8").val()),
-	parseInt($("#scores-input9").val()),
-	parseInt($("#scores-input10").val()),
-	];
+//********************************
+// api-routes.js
 
-	// Create a variable "answers" to hold the reuslts
-	var friends = {
-		name: name,
-		url: photo,
-		scores: scores
-	}
+var http = require("https");
 
-	$(".form-group").empty();
+// Routes 
 
-	// The Url of this website
+// ==================================
+module.exports = function(app) {
 
-	var thisUrl = "http://localhost:8080"; 
+	// When the page loads, grab all our friends
+	$.get("/api/all", function(data) {
+		if (data.length !== 0) {
+			for (var i = 0; i < data.length; i++) {
+				var profile = $("<div>");
+				profile.addClass("friend");
+				profile.append("<p>" + data[i].name +"<p>");
+				profile.append("<p>" + data[i].photo +"<p>");
+				profile.append("<p>" + data[i].score +"<p>");
+				$("friends-rep").prepend(profile);
+			}
+		}
+	});
 
-	// Make an Ajax call to post answers to server
-	$.ajax({
-		url:thisUrl + "/api/friends",
-		body: friends,
-		method: 'POST'
-	}).done(function(response) {
-		//Display the best match (name and photo) using the result of the Ajax post
-		$("#best-name-match").text(response.name);
-		$("#best-photo-match").attr("src", response.photo);
+	// Make Basic Calculate comparison
+	var friendScore[i] = data[i].score;
+	if (data.length > 1) {
+		for (var i = 0; i < data.length-1, i++) {
+			for (var j = 0; j < friendScore.length, j++){
+				var friendComp[i][j] = friendScore[data.length][j] - friendScore[i][j]; 
+				var friendAbs[i][j] = math.abs(friendComp[i][j]);
+				var friendSum[i] = sum([friendAbs[i][1], friendAbs[i][2], friendAbs[i][3], friendAbs[i][4], friendAbs[i][5], friendAbs[i][6], friendAbs[i][7], friendAbs[i][8], friendAs[i][9], friendAbs[i][10]]);
+				var friendSum = [];
+				friendSum.push(friendSum[i])
+					if(friendSum[i] === Math.min.apply(null, friendSum)){
 
-		// Display the modal with the best match
-		$("best-match-modal").modal('toggle');
-});
-	e.preventDefault();
-	return false
-});
-
-//module.exports = apiRoute;
+						
+						$("#pop").on("click", function() {
+						$('#imagepreview').attr('src', $('#imageresource').attr('src')); // here asign the image to the modal when the user click the enlarge link
+						$('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
+					});
+					}
+				}
+			}
+		};

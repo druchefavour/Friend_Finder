@@ -26,15 +26,19 @@ app.get("/", function(req, res) {
    res.sendfile(__dirname + '/public/home.html');
 });
 
+app.get("/survey", function(req, data) {
+  res.sendFile(path.join(__dirname, "public/survey.html"));
+ });
+
 // Search for Specific Friends (or all friends) - provides JSON
- app.get("/api/friends?", function(req, res) {
- 	var chosenFriend = req.params.friends;
+ /*app.get("/api/:newFriends?", function(req, res) {
+ 	var chosenFriend = req.params.newFriends;
  	if (chosenFriend) {
  		console.log(chosenFriend);
 
- 		for (var i = 0; i < friends.length; i++) {
- 			if (chosenFriend === friends[i].name) {
- 				res.json(friends[i]);
+ 		for (var i = 0; i < newFriends.length; i++) {
+ 			if (chosenFriend === newFriends[i].name) {
+ 				res.json(newFriends[i]);
  				return;
  			}
  		}
@@ -43,17 +47,46 @@ app.get("/", function(req, res) {
  	}
 
  	else {
- 		res.json(friends);
+ 		res.json(newFriends);
+ 	}
+ });*/
+// Create New Characters - takes in JSON input
+app.post("/api/newFriends", function(req, res) {
+   var newFriends = req.body;
+   newFriends.name = newFriends.name.replace(/\s+/g, "").toLowerCase();
+   console.log(newFriends);
+
+  //newFriends.push(newFriends);
+ 
+   res.json(newFriends);
+   //res.write(newFriends);
+   res.sendFile(path.join(__dirname, "/api/newFriends"));
+ });
+
+
+// Search for Specific Friends (or all friends) - provides JSON
+ app.get("/api/newFriends?", function(req, res) {
+ 	var chosenFriend = req.params.newFriends;
+ 	if (chosenFriend) {
+ 		console.log(chosenFriend);
+
+ 		for (var i = 0; i < newFriends.length; i++) {
+ 			if (chosenFriend === newFriends[i].name) {
+ 				res.json(newFriends[i]);
+ 				return;
+ 			}
+ 		}
+
+ 		res.json(false);
+ 	}
+
+ 	else {
+ 		res.json(newFriends);
  	}
  });
-/*app.get("/", function(req, res) {
-	res.send("Welcome to the Star Wars Page!");
- });
 
-app.get("/api/friends", function(req, res) {
-	res.send("Welcome to the Star Wars Page!");
- });*/
-
+// Create New Characters - takes in JSON input
+ 
 // Listen for response and log a message to the user upon success
 app.listen(PORT, function() {
 	console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT); 
