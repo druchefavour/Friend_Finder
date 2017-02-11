@@ -16,42 +16,33 @@ $("#submit").on("click", function(e) {
 	];
 
 	// Create a variable "answers" to hold the reuslts
-	var answers = {
+	var friends = {
 		name: name,
 		url: photo,
 		scores: scores
 	}
 
-	e.preventDefault();
-	console.log(answers);
 	$(".form-group").empty();
-}); 
 
+	// The Url of this website
 
-/*$("#submit").on("click", function(e) {
-	var name = $("#name-input").val();
-	var photo = $("#photo-input").val();
-	var scores = $("#scores-input").val();
+	var thisUrl = "http://localhost:8080"; 
 
-// Create a variable "answers" to hold the reuslts
+	// Make an Ajax call to post answers to server
+	$.ajax({
+		url:thisUrl + "/api/friends",
+		body: friends,
+		method: 'POST'
+	}).done(function(response) {
+		//Display the best match (name and photo) using the result of the Ajax post
+		$("#best-name-match").text(response.name);
+		$("#best-photo-match").attr("src", response.photo);
 
-var answers = {
-	"name" : name,
-	"url" : photo,
-	"scores" : scores
-}
-
-$.ajax({
-	url: "/api/friends",
-	body: survey,
-	method: 'POST'
-}).done(function(response) {
-	console.log(response);
+		// Display the modal with the best match
+		$("best-match-modal").modal('toggle');
 });
-console.log(scores);
-e.preventDefault();
-return false;
-});*/
+	e.preventDefault();
+	return false
+});
 
-
-
+//module.exports = apiRoute;
