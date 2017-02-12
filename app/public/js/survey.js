@@ -25,8 +25,10 @@ $("#submit").on("click", function(e) {
 
 	console.log(newFriends);
 
+	var urlParts = "http://localhost:8080"; 
+
 	// Send an AJAX POST-request with jQuery
-	$.post("/api/friends", newFriends)
+	$.post(urlParts + "/api/friends", newFriends)
 	// On success, run the following code
 	.done(function(data) {
 		var profile = $("<div");
