@@ -52,9 +52,9 @@ $(document).ready(function(){
 //gets location of root page
   var currentURL = window.location.origin;
 //AJAX function uses current URL with the API to GET the data associated with it
-  $.ajax({url: currentURL + "/api/survey", method: "GET"})
+  $.ajax({url: currentURL + "/api/new", method: "GET"})
   .done(function(memberData){
-    console.log("URL:" + currentURL +"/api/survey"); //logs URL to access incase of troubleshooting
+    console.log("URL:" + currentURL +"/api/new"); //logs URL to access incase of troubleshooting
     console.log(memberData);
   })
 }

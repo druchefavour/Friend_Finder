@@ -1,58 +1,109 @@
 //********************************
 // api-routes.js
+//*********************************
 
-var http = require("https");
+// LOAD DATA
+// This will link our routes to a series of "data" sources
+
+//var stuffINeed = require("./ess.js");
+var friendsData = require("../public/data/friendsRepo.js");
+var path = require('path');
 
 // Routes 
 
 // ==================================
 module.exports = function(app) {
-	var friends = [];
+	// API GET Requests
+	
+	// When users visit a page, (say localhost:8080/api/all ... they are shown a JSON of the data from friendRep.js)
 
-	app.post("/api/friends", function(req, res) {
-		var newFriends = req.body;
-		newFriends.name = newFriends.name.replace(/\s+/g, "").toLowerCase();
-		console.log(newFriends);
-		friends.push(newFriends);
-		res.json(newFriends);
-		});
+	app.get('/api/searchFriend', function(req, res) {
+		var chosen = req.param.friends;
 
-//999999999999999999999999999999999999999999999999999999999999999999999999999
-	// When the page loads, grab all our friends
-	app.get("/api/all", function(data) {
-		if (data.length !== 0) {
-			for (var i = 0; i < data.length; i++) {
-				var profile = $("<div>");
-				profile.addClass("friend");
-				profile.append("<p>" + data[i].name +"<p>");
-				profile.append("<p>" + data[i].photo +"<p>");
-				profile.append("<p>" + data[i].score +"<p>");
-				$("friends-rep").prepend(profile);
-			// Make Basic Calculate comparison
-			var friendScore = [];
-
-			data[i].score = [data[i].score[0], data[i].score[1],data[i].score[2], data[i].score[3], data[i].score[4], data[i].score[5], data[i].score[6], data[i].score[7], data[i].score[8], data[i].score[9]];
-
-			var friendSum = [];
-			friendSum[i] = sum([math.abs((data[length].score[0])-(data[i].score[0])), math.abs((data[length].score[1])-(data[i].score[1])), math.abs((data[length].score[2])-(data[i].score[2])), math.abs((data[length].score[3])-(data[i].score[3])),math.abs((data[length].score[4])-(data[i].score[4])), math.abs((data[length].score[5])-(data[i].score[5])), math.abs((data[length].score[6])-(data[i].score[6])), math.abs((data[length].score[7])-(data[i].score[7])), math.abs((data[length].score[8])-(data[i].score[8])), math.abs((data[length].score[9])-(data[i].score[9]))]);
-
-				friendSum.push(friendSum[i]);
-				//0000000000000000000000000000000000000000000000000
-				{
-					if(friendSum[i] === Math.min.apply(null, friendSum)){
-					// Grab the result from the AJAX post so that the best match's name and photo are displayed.
-					$("#bestMatchName").text(data[i].name);
-					$('#bestMatchImage').attr("src", data[i].photo);
-					// Show the modal with the best match 
-					$("#bestMatchModal").modal('toggle');
-					} else {
-						console.log("start afresh");
-					}
+		if (chosen) {
+			for (var i=0; i < friendsData.length; i++) {
+				if (chosen === friendsData[i].name) {
+					res.json(friendsData[i]);
+					return;
 				}
-				//00000000000000000000000000000000000000000000000000000
 			}
+			res.send("no friend found");
+		}	
+	else{
+		res.json(friendsData);
+	}
+	});
+
+		// API POST Requests
+		// When a user submits a form data is submited as (a JSON object).
+		// The object is pushed to the appropriate Javascript array
+
+		// When user fills out a survey request... data is sent to the server...
+
+		// Server saves the data to the array "friendsArray" in friendsRepo.js file)
+		//========================================================
+		//Server would respond to users survey results and then calculate the difference between existing scores and the users scores
+		//The app would chose the user with the least differences as the best friend match
+
+		app.post('/api/searchFriend', function(req, res){
+
+		//Create variable that holds the best match and updates as it loops through the options
+
+		var bestFriend = {
+			name: "",
+			photo: "",
+			friendDifference: 500
+		};
+		//The code below will post and parse the result of the survey
+		var newFriends = req.body;
+		var friendsName = newFriends.name;
+		var friendPhoto = newFriends.photo;
+		var friendScores = newFriends.scores;
+
+		//The code below calculates the difference between the users's scores and the scores of each user in the database
+
+		var totalDifference = 0;
+
+		//The code below would loop through the friend possibilities in the database
+
+		for  (var i=0; i<friendsArray.length; i++){
+			console.log(friendsArray[i].name);
+			totalDifference = 0;
+
+			//The code below would loop through all of the scores for each friend
+
+			for (var j=0; j< friendsArray[i].scores[j]; j++){
+
+			//The code below would calculate the total difference between the scores and sums into the totalDifference
+
+			totalDifference += Math.abs(
+				parseInt(friendScores[j])-
+				parseInt(friendsArray[i].scores[j]));
+
+				//if sum of diff is less then the differences of the current 'best match'
+
+				if(totalDifference <=bestFriend.friendsDifference){
+				//resets the best match to the new friend
+
+				bestFriend.name = friendsArray[i].name;
+				bestFriend.photo = friendsArray[i].photo;
+				bestFriend.friendDifference = totalDifference;
 			}
-		})
+		}
+	}
+	//saves the user's data to the database 
+	friendsArray.push(newFriends);
+
+	//return a JSON with user's best match to be used by html
+	res.json(bestFriend);
+
+});
+
+//	app.post('/api/add', function(req, res) {
+//		var newFriends = req.body;
+//		friendsData.push(newFriends);
+//		res.json(newFriends);
+//		});
+//};
 	//99999999999999999999999999999999999999999999999999999999999999999
-	};
 

@@ -6,6 +6,7 @@
 // =============================================================
 var path = require("path");
 
+
 // Routes
 
 module.exports = function(app) {
@@ -19,8 +20,22 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname,'../public/survey.html'));
     });
 
-    // Tertiary route loads friends.html
+    app.get('/new', function(req, res){
+    //loads the results page
+    res.sendFile(path.join(__dirname + '/../public/friend.html'));
+});
+
+    // If on matching route is found, default to home page
+    app.use(function(req,res) {
+    res.sendFile(path.join(__dirname,'../public/home.html'));
+});
+
+
+
+
+    /*// Tertiary route loads friends.html
     app.get('/api/friends',function(req,res) {
     res.sendFile(path.join(__dirname,'../public/api/friends.html'));
-});
+});*/
 }
+
