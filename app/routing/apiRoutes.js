@@ -7,6 +7,16 @@ var http = require("https");
 
 // ==================================
 module.exports = function(app) {
+	var friends = [];
+
+	app.post("/api/friends", function(req, res) {
+		var newFriends = req.body;
+		newFriends.name = newFriends.name.replace(/\s+/g, "").toLowerCase();
+		console.log(newFriends);
+		friends.push(newFriends);
+		res.json(newFriends);
+		});
+
 //999999999999999999999999999999999999999999999999999999999999999999999999999
 	// When the page loads, grab all our friends
 	app.get("/api/all", function(data) {

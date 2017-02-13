@@ -1,3 +1,4 @@
+
 $("#submit").on("click", function(e) {
 	event.preventDefault();
 
@@ -25,13 +26,13 @@ $("#submit").on("click", function(e) {
 
 	console.log(newFriends);
 
-	var urlParts = "http://localhost:8080"; 
+//var urlParts = "http://localhost:8080"; 
 
 	// Send an AJAX POST-request with jQuery
-	$.post(urlParts + "/api/friends", newFriends)
+	$.post("api/friends", newFriends)
 	// On success, run the following code
 	.done(function(data) {
-		var profile = $("<div");
+		var profile = $("<div>");
 		profile.addClass("friend");
 		profile.append(newFriends);
 		$("friends-rep").prepend(profile);
