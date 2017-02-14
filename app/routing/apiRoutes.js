@@ -104,6 +104,6 @@ module.exports = function(app) {
 //		friendsData.push(newFriends);
 //		res.json(newFriends);
 //		});
-//};
+};
 	//99999999999999999999999999999999999999999999999999999999999999999
 
